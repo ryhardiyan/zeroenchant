@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minecraft Enchantment Ordering Tool</title>
+  <meta name="description" content="RyharDev portfolio: Minecraft enchantment ordering calculator and gear guides.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="./site.webmanifest">
+  <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+  <script src="data.js?11"></script>
+  <script src="script.js?18"></script>
+</head>
+<body id="top">
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top">RyharDev<span class="brand-sub">/ enchant lab</span></a>
+    <nav class="menu" aria-label="Main">
+      <a href="#calculator">Calculator</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <label class="lang-picker">
+      <span class="visually-hidden">Language</span>
+      <select id="language">
+        <option value="">Choose a language</option>
+      </select>
+    </label>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Portfolio &middot; RyharDev</p>
+      <h1 id="page-title">Minecraft Enchantment Ordering Tool</h1>
+      <ul class="badges" aria-label="Project info">
+        <li class="badge badge-green">Java &amp; Bedrock</li>
+        <li class="badge badge-cyan">Boyolali, ID</li>
+        <li class="badge badge-purple">MC 1.20+ / 1.21</li>
+      </ul>
+      <a class="btn btn-primary" href="#calculator">Open the calculator</a>
+    </div>
+  </section>
+
+  <!-- ABOUT (text comes from the language files) -->
+  <section id="about" class="about">
+    <div class="wrap">
+      <details id="details-enchants" class="panel" open>
+        <summary id="sum-1">About Enchantment in Minecraft</summary>
+        <p id="p-1"></p>
+      </details>
+      <details id="details-tool" class="panel" open>
+        <summary id="sum-2">About this tool</summary>
+        <p id="p-2"></p>
+        <p id="p-3"></p>
+      </details>
+    </div>
+  </section>
+
+  <!-- CALCULATOR -->
+  <section id="calculator" class="calculator">
+    <div class="wrap">
+      <div class="calc-grid">
+
+        <div class="card">
+          <header class="card-head">Step 1 &middot; Pick an item</header>
+          <select id="item" class="select-item" aria-label="Item to enchant">
+            <option value="">Choose an item to enchant</option>
+          </select>
+
+          <div id="enchants" style="display: none">
+            <div class="table-wrap">
+              <table></table>
+            </div>
+
+            <div id="overrides" class="overrides">
+              <label class="check">
+                <input type="checkbox" id="allow_incompatible" onchange="allowIncompatibleChanged()">
+                <span id="override-incompatible">Allow incompatible enchantments</span>
+              </label>
+              <label class="check">
+                <input type="checkbox" id="allow_many" onchange="allowManyChanged()">
+                <span id="override-max-number">Allow more than 10 enchantments</span>
+              </label>
+            </div>
+
+            <button id="calculate" class="btn btn-primary btn-block" type="button" disabled>Calculate</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <header class="card-head">Step 2 &middot; Result</header>
+
+          <fieldset class="mode" id="mode_selection">
+            <legend id="optimize-label">Optimize for:</legend>
+            <label class="radio">
+              <input type="radio" name="cheapness-mode" checked value="levels">
+              <span id="optimize-xp">Least XP/Levels</span>
+            </label>
+            <label class="radio">
+              <input type="radio" name="cheapness-mode" value="prior_work">
+              <span id="optimize-pwp">Least Prior Work Penalty</span>
+            </label>
+          </fieldset>
+
+          <div id="progress" class="notice" style="display: none">
+            <span class="lbl">Calculating...</span>
+          </div>
+
+          <div id="solution" style="display: none">
+            <h2 id="solution-header" class="result-title">Optimal solution found!</h2>
+            <p id="timings" class="muted"></p>
+            <p class="cost"><b id="total-cost-label">Total cost:</b> <span id="level-cost">####</span></p>
+            <h3 class="steps-title">Steps</h3>
+            <ol id="steps" class="steps"></ol>
+            <p id="xp-range-note" class="muted small" style="display: none"></p>
+          </div>
+
+          <div id="error" class="notice" style="display: none">
+            <span class="lbl">Error</span>
+          </div>
+
+          <div id="phone-warn" class="notice" style="display: none">
+            <span class="lbl">
+              You have selected many enchantments and are using a phone or tablet - the calculator may run out of memory and crash.
+              Try selecting fewer enchantments, or using a computer.
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <h2 class="section-title">Contact</h2>
+      <div class="card">
+        <header class="card-head">Direct contact</header>
+
+        <div class="contact-row">
+          <div>
+            <p class="contact-label">WA Business</p>
+            <p class="contact-value">082323780821</p>
+          </div>
+          <div class="btn-row">
+            <a class="btn btn-sm" href="https://wa.me/6282323780821" target="_blank" rel="noopener">Open WA</a>
+            <button class="btn btn-sm" type="button" data-copy="082323780821">Copy</button>
+          </div>
+        </div>
+
+        <div class="contact-row">
+          <div>
+            <p class="contact-label">Telegram</p>
+            <p class="contact-value">@NhymAgnestye</p>
+          </div>
+          <a class="btn btn-sm" href="https://t.me/NhymAgnestye" target="_blank" rel="noopener">Open Telegram</a>
+        </div>
+
+        <div class="contact-row">
+          <div>
+            <p class="contact-label">Website</p>
+            <p class="contact-value">rahardiyan.is-a.ceo</p>
+          </div>
+          <a class="btn btn-sm" href="https://rahardiyan.is-a.ceo" target="_blank" rel="noopener">Visit</a>
+        </div>
+
+        <div class="contact-row">
+          <div>
+            <p class="contact-label">Main email</p>
+            <p class="contact-value">ryhardev@gmail.com</p>
+          </div>
+          <div class="btn-row">
+            <a class="btn btn-sm" href="mailto:ryhardev@gmail.com">Email</a>
+            <button class="btn btn-sm" type="button" data-copy="ryhardev@gmail.com">Copy</button>
+          </div>
+        </div>
+
+        <div class="contact-row">
+          <div>
+            <p class="contact-label">GitHub</p>
+            <p class="contact-value">@ryhardiyan</p>
+          </div>
+          <a class="btn btn-sm" href="https://github.com/ryhardiyan" target="_blank" rel="noopener">Open GitHub</a>
+        </div>
+
+        <p class="muted">📍 Boyolali, Central Java, Indonesia</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <p>© 2026 - RyharDev. All rights reserved. Crafted with passion, clean code, and Neo-Brutalist aesthetics.</p>
+    <p class="footer-links">
+      <a href="https://github.com/ryhardiyan/enchant-order" target="_blank" rel="noopener">Source on GitHub</a>
+      <a class="btn btn-sm" href="#top">▲ BACK TO SPAWN / TOP</a>
+    </p>
+  </div>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="contact.js"></script>
+</body>
+</html>
